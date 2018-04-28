@@ -1,0 +1,556 @@
+#playShow {
+    height: 100%;
+    background-color: #000;
+    background-image: url("../image/n4/bg2.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+#playShow .top {
+    width: 100%;
+    height: 7%;
+    line-height: 0.44rem;
+    font-size: 0.22rem;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffe1), to(#6cc));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#playShow .middle {
+    width: 90%;
+    height: 68%;
+    margin: 1% 5% 0.5% 8%;
+    box-sizing: border-box;
+    font-size: 0;
+}
+
+#playShow .middle .play {
+    width: 65%;
+    height: 100%;
+    position: relative;
+    display: inline-flex;
+    vertical-align: top;
+}
+
+#playShow .middle .play img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    z-index: 1;
+    display: flex;
+}
+
+#playShow .middle .play .canvas {
+    position: relative;
+    z-index: 3;
+    margin: 0.25rem 0.15rem 0.12rem 0.17rem;
+}
+
+#playShow .middle .person {
+    width: 28%;
+    height: 100%;
+    box-sizing: border-box;
+    vertical-align: top;
+    display: inline-block;
+    position: relative;
+
+}
+#playShow .middle .person .contain{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: hidden;
+}
+#playShow .middle .person .bg{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+
+}
+
+#playShow .middle .person .animation-top{
+    animation: slide-top 0.15s linear;
+    -webkit-animation: slide-top 0.15s linear;
+}
+
+#playShow .middle .person .contain .load-info{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 0.15rem;
+}
+
+
+#playShow .middle .person .contain .load-info .text{
+    width: 100%;
+    font-size:0.18rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    text-align: center;
+    text-shadow: 0 0 0.3em, 0 0 0.1em;
+    color: #fff;
+}
+
+#playShow .middle .person .contain .load-info .load{
+        width: 1rem;
+        height: 1rem;
+        margin: 0 0.6rem;
+}
+
+#playShow .middle .person .contain .load-info .load img{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+#playShow .middle .vanish {
+    animation: vanish 5s;
+    animation-fill-mode: forwards;
+    -webkit-animation:vanish 5s;
+    -webkit-animation-fill-mode:forwards;
+
+}
+
+#playShow .middle .person .bg-img {
+    position: absolute;
+    width: 2.4rem;
+    height: 1.2rem;
+    box-sizing: border-box;
+}
+
+#playShow .middle .person .person-info {
+    position: relative;
+    width: 2.4rem;
+    height: 1.2rem;
+    margin-bottom: 0.1rem;
+
+}
+
+#playShow .middle .person .person-info .info {
+    width: 2.5rem;
+    height: 1.2rem;
+    position: relative;
+}
+
+#playShow .middle .person .person-info .info .rect {
+    width: 0.65rem;
+    height: 0.65rem;
+    position: absolute;
+    left: 31%;
+    top: 18%;
+}
+
+#playShow .middle .person .person-info .info img {
+    width: 100%;
+    height: auto;
+}
+
+#playShow .middle .person .person-info .info span {
+    display: block;
+    color: #fff;
+}
+
+#playShow .middle .person .person-info .info .large-remark {
+    margin-left: 0.02rem;
+    font-size: 0.1rem;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffe1), to(#6cc));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#playShow .middle .person .person-info .info .remark {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 0.06rem;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#ffffe1), to(#6cc));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: absolute;
+    top: 0.08rem;
+    left: 0;
+}
+
+#playShow .middle .person .person-info .info .department {
+    position: absolute;
+    top: 6%;
+    left: 6%;
+    font-size: 0.08rem;
+}
+
+#playShow .middle .person .person-info .info .name {
+    position: absolute;
+    top: 40%;
+    left: 6%;
+    font-size: 0.08rem;
+}
+
+#playShow .middle .person .person-info .info .sex {
+    position: absolute;
+    top: 72%;
+    left: 3%;
+    font-size: 0.08rem;
+}
+
+#playShow .middle .person .person-info .info .charmScore {
+    position: absolute;
+    right: 16%;
+    top: 14%;
+    font-size: 0.05rem;
+}
+
+#playShow .middle .person .person-info .info .age {
+    position: absolute;
+    right: 12%;
+    top: 42%;
+    font-size: 0.05rem;
+}
+
+#playShow .middle .person .person-info .info .happyScore {
+    position: absolute;
+    right: 14%;
+    top: 78%;
+    font-size: 0.05rem;
+}
+
+#playShow .middle .person .person-info .info .score {
+    font-size: 0.1rem;
+    margin-right: 0.03rem;
+    text-shadow: 0 0 0.3em, 0 0 0.1em;
+}
+
+#playShow .bottom {
+    width: 90%;
+    margin: 1% 5% 0 5%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#playShow .contain {
+    height: 100%;
+    position: relative;
+    font-size: 0;
+}
+
+#playShow .animation {
+  animation: slide-left 0.15s;
+  -webkit-animation: slide-left 0.15s;
+}
+
+#playShow .contain .person {
+    display: inline-block;
+    vertical-align: top;
+    width: 1.6rem;
+    height: 1.1rem;
+    margin: 0 0.3rem;
+}
+
+#playShow .contain .person .bg {
+    width: 1.6rem;
+    height: 1.1rem;
+    position: absolute;
+}
+
+#playShow .contain .person .bg .bg-img {
+    width: 100%;
+    height: 100%;
+}
+
+#playShow .contain .person .bg .big-img {
+    max-width: 100%;
+    max-height: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    z-index: 3;
+    box-sizing: border-box;
+    padding: 0.08rem 0.05rem 0.05rem 0.05rem;
+    animation: appear 10s infinite;
+    -webkit-animation: appear 10s infinite;
+}
+
+#playShow .contain .p-img {
+    width: 0.56rem;
+    height: 0.78rem;
+    margin: 0.12rem 0.1rem 0 0.1rem;
+    box-sizing: border-box;
+    border: 2px solid #FFFFFF;
+}
+
+#playShow .contain .img-contain {
+    width: 1.6rem;
+    height: 0.9rem;
+    animation-delay: 10s;
+    -webkit-animation-delay: 10s;
+    animation: faded 10s infinite;
+    -webkit-animation: faded 10s infinite;
+}
+
+#playShow .contain .info {
+    width: 1.6rem;
+    height: 0.2rem;
+    text-align: center;
+    line-height: 0.2rem;
+    color: #fff;
+    font-size: 0.08rem;
+    position: absolute;
+    z-index: 4;
+}
+
+@-moz-keyframes appear {
+    0%{
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    80.5% {
+        opacity: 0;
+    }
+
+}
+
+@-webkit-keyframes appear {
+    0%{
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    80.5% {
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+@-o-keyframes appear {
+    0%{
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    80.5% {
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+@keyframes appear {
+    0%{
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    80.5% {
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+
+@-moz-keyframes faded {
+    0%{
+        opacity: 0;
+    }
+    80% {
+        opacity: 0;
+    }
+    80.5% {
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+    }
+
+
+}
+
+@-webkit-keyframes faded {
+    0%{
+        opacity: 0;
+    }
+    80% {
+        opacity: 0;
+    }
+    80.5% {
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@-o-keyframes faded {
+    0%{
+        opacity: 0;
+    }
+    80% {
+        opacity: 0;
+    }
+    80.5% {
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+    }
+
+}
+
+@keyframes faded {
+    0%{
+        opacity: 0;
+    }
+    80% {
+        opacity: 0;
+    }
+    80.5% {
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+
+@-moz-keyframes vanish {
+
+    99% {
+        opacity: 1;
+        height: 1.2rem;
+    }
+    100% {
+        opacity: 0;
+        height: 0;
+    }
+}
+
+@-webkit-keyframes vanish {
+    99% {
+        opacity: 1;
+        height: 1.2rem;
+    }
+    100% {
+        opacity: 0;
+        height: 0;
+    }
+}
+
+@-o-keyframes vanish {
+    99% {
+        opacity: 1;
+        height: 1.2rem;
+    }
+    100% {
+        opacity: 0;
+        height: 0;
+    }
+}
+
+@keyframes vanish {
+
+    99% {
+        opacity: 1;
+        height: 1.2rem;
+    }
+    100% {
+        opacity: 0;
+        height: 0;
+    }
+}
+
+
+
+@-moz-keyframes slide-left {
+
+    from{
+        left: 0px;
+    }
+    to{
+        -moz-transform: translateX(-2.2rem);
+    }
+}
+
+@-webkit-keyframes slide-left {
+    from{
+        left: 0px;
+    }
+    to{
+        transform: translateX(-2.2rem);
+    }
+}
+
+@-o-keyframes slide-left {
+    from{
+        left: 0px;
+    }
+    to{
+        transform: translateX(-2.2rem);
+    }
+}
+
+@keyframes slide-left {
+
+    from{
+        left: 0px;
+    }
+    to{
+        transform: translateX(-2.2rem);
+    }
+}
+
+
+@-moz-keyframes slide-top {
+
+    from{
+        left: 0px;
+    }
+    to{
+        -moz-transform: translateY(-1.3rem);
+    }
+}
+
+@-webkit-keyframes slide-top {
+    from{
+        left: 0px;
+    }
+    to{
+        transform: translateY(-1.3rem);
+    }
+}
+
+@-o-keyframes slide-top {
+    from{
+        left: 0px;
+    }
+    to{
+        transform: translateY(-1.3rem);
+    }
+}
+
+@keyframes slide-top {
+
+    from{
+        left: 0px;
+    }
+    to{
+        transform:translateY(-1.3rem);
+    }
+}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Css多个无缝轮播</title>
+    <style>
+        .contain{
+            width: 100%;
+            height: 20%;
+            overflow: hidden;
+            white-space: nowrap;
+            background: #ebebeb;
+        }
+        .contain .animation-nav{
+            position: relative;
+            animation: slide 0.15s;
+            -webkit-animation: slide 0.15s;
+            font-size: 0;
+        }
+        .contain .nav{
+            position: relative;
+            font-size: 0;
+        }
+        .contain  .item{
+            width: 200px;
+            height: 200px;
+            display: inline-block;
+            margin: 0 20px;
+            background: #00b7ee;
+            text-align: center;
+            line-height: 200px;
+            color: #ebebeb;
+            font-size: 30px;
+        }
+        @keyframes slide {
+            from{
+                left: 0px;
+            }
+            to{
+               transform: translateX(-240px);
+            }
+            
+        }
+        @-webkit-keyframes slide{
+            from{
+                left: 0px;
+            }
+            to{
+                -webkit-transform: translateX(-240px);
+            }
+        }
+        
+
+    </style>
+</head>
+<body>
+
+   <div style="margin-bottom: 200px">
+       <input type="button" onclick="test()" value="测试">
+   </div>
+  <div class="contain">
+      <div id="nav" class="nav">
+          <div class="item">1</div>
+          <div class="item">2</div>
+          <div class="item">3</div>
+          <div class="item">4</div>
+          <div class="item">5</div>
+          <div class="item">6</div>
+          <div class="item">7</div>
+          <div class="item">8</div>
+      </div>
+  </div>
+
+</body>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script >
+    var sum=9;
+    function test() {
+        var dom= $('#nav');
+        dom.append('<div class="item">' +sum+ '</div>');
+        sum++;
+        dom.removeClass('nav');
+        dom.addClass('animation-nav');
+        var timer=setTimeout(function () {
+            dom.children('div').get(0).remove();
+            dom.removeClass('animation-nav');
+            dom.addClass('nav');
+            clearTimeout(timer);
+        },0.15*1000);
+    }
+</script>
+</html>

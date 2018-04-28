@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>车牌选择</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 13px;
+            line-height: 1.42857143;
+            color: #333;
+        }
+
+        img {
+            vertical-align: middle;
+        }
+
+        table {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        th {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        td {
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .search-result-grid {
+            height: auto;
+            margin-top: 20px;
+            margin-left: 5px;
+        }
+
+        .search-result-grid .fixed-table-body {
+            overflow-x: auto;
+            overflow-y: auto;
+            height: auto;
+        }
+
+        .img-switcher {
+            width: 41%;
+        }
+
+        .grid-item {
+            border: 1px solid #131313;
+            box-sizing: content-box;
+            width: 240px;
+            font-size: 12px;
+            border-radius: 3px;
+            overflow: hidden;
+            float: left;
+            margin: 5px;
+        }
+
+        .grid-seem-item {
+            border: 1px solid #999999;
+            box-sizing: content-box;
+            width: 240px;
+            font-size: 12px;
+            border-radius: 3px;
+            overflow: hidden;
+            float: left;
+            margin: 5px;
+        }
+
+        .grid-item-img-container {
+            height: 240px;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            background: #e0e0e0;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .grid-item-img-shot, .grid-item-img-origin {
+            max-width: 240px;
+            max-height: 240px
+        }
+
+        .grid-item-img-origin {
+            display: none;
+        }
+
+        .dgt-panel2-title {
+            border-bottom: 1px solid #a0a0a0;
+            font-size: 16px;
+            padding: 7px 10px;
+            margin: 0 0 20px;
+        }
+
+        .originZoom {
+            display: none;
+        }
+
+        .grid-item-img-shot:hover {
+
+        }
+
+        .grid-item-img-mark, .grid-item-img-pos-container {
+            padding: 3px;
+        }
+
+        .grid-item-img-car-license {
+            position: relative;
+            float: right !important;
+            background: #27c5c9;
+        }
+
+        .model-item {
+            height: 230px;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            background: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        /*.model-item-origin, .model-item-shot {
+            max-width: 472px;
+            max-height: 230px;
+            padding: 5px;
+        }*/
+        .model-item-origin {
+            max-width: 472px;
+            max-height: 230px;
+            padding: 5px;
+        }
+        .model-item-shot{
+            max-width: 230px;
+            max-height: 230px;
+        }
+
+        .row {
+            padding: 5px !important;
+        }
+
+        .magnifier-mask {
+            background: rgba(0, 0, 0, 0.1);
+            cursor: move;
+            z-index: 1;
+            font-size: 0
+        }
+
+        .magnifier-viewer {
+            position: absolute;
+            z-index: 10000;
+            overflow: hidden
+        }
+
+        .magnifier-viewer-inner {
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            background: #e0e0e0
+        }
+
+        .searchresult-mode-switer {
+            height: auto;
+            padding: 3px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .query-timer {
+            padding-top: 7px;
+            color: #787878;
+            /*  font-size: .6em;*/
+        }
+
+        .swither-right {
+            float: right !important;
+            display: flex;
+        }
+
+        /*#main, .searchresult-mode-switer {
+            padding-top: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }*/
+
+        .dgt-panel2-title {
+            border-bottom: 1px solid #a0a0a0;
+            font-size: 16px;
+            padding: 7px 10px;
+            margin: 0 0 20px;
+        }
+
+        .row {
+            padding-top: 10px;
+        }
+
+        .pager-ctrl {
+            float: left;
+            display: none;
+            width: 100%;
+        }
+
+        .query-btn {
+            color: whitesmoke;
+        }
+
+        .grid-item .search {
+            display: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .grid-item .search .text {
+            display: none;
+            position: absolute;
+            top: -5px;
+            width: 240px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.8);
+            text-align: right;
+            padding: 5px;
+        }
+
+        .grid-item:hover .search {
+            display: block;
+            position: relative;
+            z-index: 10;
+        }
+
+        .grid-item:hover .search .text {
+            display: block;
+            position: absolute;
+            top: -5px;
+            width: 240px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.8);
+            text-align: right;
+            padding: 5px;
+        }
+
+
+        .grid-seem-item .search {
+            display: none;
+            position: relative;
+            z-index: 10;
+        }
+
+        .grid-seem-item .search .text {
+            display: none;
+            position: absolute;
+            top: -5px;
+            width: 240px;
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.8);
+            text-align: right;
+            padding: 5px;
+        }
+
+
+        .draw-contain {
+            position: relative;
+        }
+
+
+        .draw-section {
+            width: 50%;
+            height: 230px;
+            position: absolute;
+            z-index: 1050;
+            margin-left: 50%;
+
+        }
+
+        .draw-section .draw {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .draw-section .draw .cube{
+            position: absolute;
+            border: 1px solid red;
+        }
+
+        .model-item-shot img{
+            width: 100%;
+            height: 100%;
+        }
+
+
+        .circle {
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            top: 80%;
+            left: 2%;
+        }
+
+        .pie-left {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            border-radius: 50%;
+            clip: rect(0, 25px, auto, 0);
+            background-color: #00CCFF;
+        }
+
+        .pie-right {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            border-radius: 50%;
+            clip: rect(0, auto, auto, 25px);
+            background-color: #00CCFF;
+        }
+
+        .left {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.8);
+            clip: rect(0, 25px, auto, 0);
+        }
+
+        .right {
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            border-radius: 50%;
+            clip: rect(0, auto, auto, 25px);
+            background-color: rgba(255, 255, 255, 0.8);
+
+        }
+
+        .center {
+            width: 36px;
+            height: 36px;
+            text-align: center;
+            line-height: 40px;
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.6);
+
+        }
+    </style>
+</head>
+<body>
+
+<div>
+
+    <div id="select-condition">
+        <div class="form-item" id="con-label">
+            <label class="node-label">已选条件</label>
+        </div>
+    </div>
+
+    <div id="inputText" class="hidden">
+        <div class="form-item">
+            <label>车牌号码</label>
+            <select id="province" class="form-control"></select>
+            <select id="simple" class="form-control"></select>
+            <input type="text" id="plateNum" class="form-control">
+        </div>
+    </div>
+
+
+</div>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script>
+    var plates=[
+        {
+            'province':'未选',
+            'name':'未选',
+            'letters':['未选']
+        },
+        {
+            'province':'北京',
+            'name':'京',
+            'letters':['A','B','C','E','F','H','G']
+        },
+        {
+            'province':'上海',
+            'name':'沪',
+            'letters':['A','B','C','D']
+        },
+        {
+            'province':'天津',
+            'name':'津',
+            'letters':['A','B','C','E']
+        },
+        {
+            'province':'重庆',
+            'name':'渝',
+            'letters':['A','B','C','F','G','H']
+        },
+        {
+            'province':'河北',
+            'name':'冀',
+            'letters':['A','B','C','D','E','F','H','G','J','R','T']
+        },
+        {
+            'province':'山西',
+            'name':'晋',
+            'letters':['A','B','C','D','E','F','H','J','K','L','M']
+        },
+        {
+            'province':'内蒙古',
+            'name':'蒙',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M']
+        },
+
+        {
+            'province':'辽宁',
+            'name':'辽',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','V']
+        },
+        {
+            'province':'吉林',
+            'name':'吉',
+            'letters':['A','B','C','D','E','F','G','H','J']
+        },
+        {
+            'province':'黑龙江',
+            'name':'黑',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','R']
+        },
+        {
+            'province':'江苏',
+            'name':'苏',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N']
+        },
+        {
+            'province':'浙江',
+            'name':'浙',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L']
+        },
+        {
+            'province':'安徽',
+            'name':'皖',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S']
+        },
+        {
+            'province':'福建',
+            'name':'闽',
+            'letters':['A','B','C','D','E','F','G','H','J','K']
+        },
+        {
+            'province':'江西',
+            'name':'赣',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M']
+        },
+        {
+            'province':'山东',
+            'name':'鲁',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','U','V']
+        },
+        {
+            'province':'河南',
+            'name':'豫',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','U']
+        },
+        {
+            'province':'湖北',
+            'name':'鄂',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S']
+        },
+        {
+            'province':'湖南',
+            'name':'湘',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','U']
+        },
+        {
+            'province':'广东',
+            'name':'粤',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z']
+        },
+        {
+            'province':'广西',
+            'name':'桂',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','R']
+        },
+        {
+            'province':'海南',
+            'name':'琼',
+            'letters':['A','B','C','D','E']
+        },
+        {
+            'province':'四川',
+            'name':'川',
+            'letters':['A','B','C','D','E','F','H','J','K','L','M','Q','R','S','T','U','V','W','X','Y','Z']
+        },
+        {
+            'province':'贵州',
+            'name':'贵',
+            'letters':['A','B','C','D','E','F','G','H','J']
+        },
+        {
+            'province':'云南',
+            'name':'云',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S']
+        },
+        {
+            'province':'西藏',
+            'name':'藏',
+            'letters':['A','B','C','D','E','F','G','H','J']
+        },
+        {
+            'province':'陕西',
+            'name':'陕',
+            'letters':['A','B','C','D','E','F','G','H','J','K','V']
+        },
+        {
+            'province':'甘肃',
+            'name':'甘',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P']
+        },
+        {
+            'province':'青海',
+            'name':'青',
+            'letters':['A','B','C','D','E','F','G','H']
+        },
+        {
+            'province':'宁夏',
+            'name':'宁',
+            'letters':['A','B','C','D']
+        },
+        {
+            'province':'新疆',
+            'name':'新',
+            'letters':['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R']
+        }
+    ];
+    var  conditions=[[],[],[],[],[],[],[]];
+    initProvince();
+
+    //监听车牌号码
+    $("#plateNum").bind("input onchange", function () {
+        plateChange();
+    });
+
+    function initProvince() {
+        var str='';
+        plates.forEach(function (value, index) {
+            str+='<option value="'+index+'">'+value.province+'</option>'
+        });
+        $('#province').empty();
+        $('#province').append(str);
+        initLetter(0);
+        $('#province').change(function () {
+            var index=parseInt($('#province').val());
+            plateChange();
+            initLetter(index);
+        });
+
+    }
+    function initLetter(index) {
+        var str='';
+        plates[index].letters.forEach(function (value, index) {
+            str+='<option value="'+index+'">'+value+'</option>'
+        });
+        $('#simple').empty();
+        $('#simple').append(str);
+        $('#simple').change(function () {
+            plateChange();
+        });
+    }
+
+    function plateChange() {
+        var text=$("#plateNum").val();
+        var p=parseInt($('#province').val());
+        var s=$('#simple').val();
+        var plate='';
+        if(p!==0&&s===0){
+            plate=plates[p].name;
+            conditions[5][0] = plate+text;
+        }else if(p!==0&&s!==0){
+            plate=plates[p].name+plates[p].letters[s];
+            conditions[5][0] = plate+text;
+        }
+        else if(p===0&&text&&text!==''){
+            conditions[5][0] = text;
+        }
+        showCondition();
+    }
+
+
+
+
+
+    //显示已筛选条件
+    function showCondition() {
+        $("#select-condition #con-label div").remove();
+        var str = ""
+        //= '<div class="form-item">'
+        conditions.forEach(function (vals, indexs) {
+            //数组值为空处理
+            var valsValue = $.trim(vals.toString().split(',').join(''))
+            var title = null;
+            if (vals.length && vals.length > 0 && valsValue !== "") {
+                switch (indexs) {
+                    case 5:
+                        title = '<div class="title">车牌号码</div>';
+                        break;
+                    default:
+                        break;
+                }
+                str = str + title;
+                vals.forEach(function (val, index) {
+                    if (val && val !== null && val !== '') {
+                        str = str + ' <div class="select-label"  index='+indexs+'-' +index + '>' + val + '</div>'
+                    }
+
+                });
+
+            }
+
+        });
+
+        //str = str + '</div>'
+        $("#select-condition #con-label label").after(str);
+        $('.select-label').unbind();
+        $('.select-label').click(function () {
+            var index = $(this).attr("index").split('-');
+            var p1 = parseInt(index[0]);
+            var p2 = parseInt(index[1]);
+            conditions[p1][p2] = "";
+            if($(this).attr("index")=='5-0'){
+                $("#simple").val(0);
+                $("#province").val(0);
+                $("#plateNum").val('');
+            }else {
+                $('#checkText input[name='+$(this).attr("index")+']').attr("checked", false);
+            }
+            showCondition();
+        });
+
+    }
+
+
+
+</script>
+</body>
+</html>  

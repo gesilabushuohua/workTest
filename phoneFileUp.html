@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title>图片上传</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="plugins/bootstrap-3.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap-fileinput-v4.4.6/css/fileinput.min.css"/>
+    <link href="plugins/jquery-confirm/jquery-confirm.min.css" rel="stylesheet"/>
+    <script src="js/adapt.js"></script>
+    <style>
+
+        body {
+            font-family: Hiragino;
+            font-size: 0.4rem;
+        }
+
+        .head {
+            width: 100%;
+            height: 1.2rem;
+            line-height: 1.2rem;
+            background: #00b7ee;
+            color: #fff;
+            font-size: 0.6rem;
+            text-align: center;
+        }
+
+        .middle {
+            width: 80%;
+            margin: 0.2rem 10%;
+        }
+
+        .btn {
+            font-size: 0.32rem;
+            height: 0.8rem;
+        }
+
+        .middle input {
+            height: 0.8rem;
+            font-size: 0.3rem
+        }
+
+        .row{
+            margin: 0.4rem 0;
+            font-size: 0;
+        }
+
+        .label{
+            display: inline-block;
+            vertical-align: top;
+            width:20%;
+            height: 0.8rem;
+            font-size: 0.3rem;
+            text-align: center;
+            line-height: 0.7rem;
+            background: #ddd;
+            border-radius: .25em  0 0 .25em
+        }
+
+        .name{
+            display: inline-block;
+            vertical-align: top;
+            width:80%;
+            height: 0.8rem;
+            font-size: 0.3rem;
+            line-height: 0.8rem;
+            border-radius:   0 .25em  .25em 0
+        }
+        .dialog {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            background: rgba(0, 0, 0, 0.2);
+            top: 0;
+        }
+
+        .m-panel {
+            position: absolute;
+            width: 60%;
+            height: auto;
+            left: 20%;
+            top: 30%;
+            background: #fff;
+            border: 1px solid #ebebeb;
+            box-shadow: 2px 3px 4px #ebebeb;
+            border-radius: 10px;
+        }
+        .p-body{
+
+            padding: 5%;
+        }
+        .p-footer{
+            margin: 5% 2% 3% 72%;
+            background: #fff;
+        }
+
+        .contain {
+            position: absolute;
+            z-index: 1;
+        }
+        /*插件css定义*/
+
+        .form-control {
+            height: 0.8rem;
+            font-size: 0.4rem;
+            padding: 0px 12px;
+        }
+
+        .krajee-default .file-footer-caption {
+            font-size: 0.2rem;
+        }
+
+        .krajee-default .file-caption-info, .krajee-default .file-size-info {
+            height: 30px;
+        }
+
+        .file-caption.icon-visible .file-caption-name {
+            padding-left: 0.4rem;
+        }
+
+        .kv-upload-progress .progress {
+            height: 0.4rem;
+            line-height: 0.4rem;
+        }
+        .kv-upload-progress .progress-bar {
+            height: 0.4rem;
+            line-height: 0.4rem;
+        }
+
+        .progress-bar {
+            font-size: 0.3rem;
+        }
+
+        .file-caption-icon {
+            line-height: 2;
+        }
+
+        .file-caption.icon-visible .file-caption-name {
+            padding-left: 0.4rem;
+        }
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+<div class="contain">
+    <div class="head">
+        生活照上传
+    </div>
+
+    <div class="middle">
+        <div class="row">
+            <span class="label" >姓名</span>
+            <input    id='name' type="text" class="form-control name" placeholder="必填" >
+        </div>
+        <div class="row">
+            <input id="uploadFile" name="file" type="file" class="file" data-msg-placeholder="选择上传图片"/>
+        </div>
+        <div class="row">
+            <a class="btn btn-success" style="width: 100%;margin-top: 20px" onclick="upFile()"
+               style="width:100%;height:0.8rem;font-size: 0.3rem;line-height: 0.6rem">上传</a>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<div class="dialog" id="dialog" style="display: none">
+    <div class="m-panel">
+        <div class="p-body" id="text">
+            亲，姓名不可为空~
+        </div>
+        <div class="p-footer">
+            <a class="btn btn-default" style="height: 0.6rem;line-height: 0.3rem;">确定</a>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="js/jquery.1.12.4.min.js"></script>
+<script src="plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="plugins/bootstrap-fileinput-v4.4.6/js/fileinput.min.js"></script>
+<script src="plugins/bootstrap-fileinput-v4.4.6/js/locales/zh.js"></script>
+<script src="plugins/jquery-confirm/jquery-confirm.min.js"></script>
+<script>
+
+
+    $("#uploadFile").fileinput({
+        language: 'zh', //设置语言
+        uploadUrl: "/upload", // server upload action
+        allowedFileExtensions: ['bmp','jpeg','jpg', 'gif', 'png'],//接收的文件后缀
+        uploadAsync: false, //同步上传
+        showUpload: false, //是否显示上传按钮
+        showRemove: true, //显示移除按钮
+        showPreview: true, //是否显示预览
+        showCaption: true,//是否显示标题
+        browseClass: "btn btn-primary", //按钮样式
+        dropZoneEnabled: false,//是否显示拖拽区域
+        autoReplace: true,
+        minFileCount: 1,
+        maxFileCount: 1,
+        layoutTemplates: {
+            indicator: "",
+            actionDelete: "",
+            actionUpload: "",
+            actionDownload: "",
+            actionZoom: ""
+        },
+        uploadExtraData: function(previewId, index) {   //额外参数的关键点
+            var obj = {};
+            obj.name=  $('#name').val();
+            return obj;
+        }
+    }).on("filebatchuploadsuccess", function (event, data) {
+        var response = data.response
+        //上传成功提交数据后操作
+        if (response) {
+            if (response.code === 1) {
+                infoConfirm('亲，美照上传成功了~');
+            } else {
+                infoConfirm(response.message);
+
+            }
+            $("#uploadFile").fileinput('clear');
+            $('#name').val('');
+
+        }
+    });
+
+
+    $('#dialog').on("click",function () {
+        $(this).css('display','none');
+    })
+
+    function infoConfirm(text) {
+        $('#dialog').css('display','block');
+        $('#text').text(text);
+    }
+
+
+    function upFile() {
+        var dom = $('#name');
+        var name = dom.val();
+        if (name === null || $.trim(name) === "") {
+            console.info('name', name);
+            infoConfirm('亲，姓名不可为空哦~');
+        } else {
+            console.info('name', name);
+            $("#uploadFile").fileinput("upload");
+        }
+    }
+</script>
+</html>

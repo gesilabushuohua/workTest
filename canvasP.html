@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>上传分割图片</title>
+  <style>
+    .search-img-section {
+      margin-top: 10px;
+    }
+
+    .search-img-section .img-section {
+      width: 220px;
+      height: 160px;
+      text-align: center;
+      display: flex;
+      /* border: 1px solid #ebebeb999;*/
+      background-color: #ebebeb;
+      position: relative;
+
+    }
+
+    .search-img-section .img-section .rect {
+      position: absolute;
+      z-index: 3;
+    }
+
+    .search-img-section .img-section .rect .re-section {
+      position: absolute;
+      border: 1px solid yellow;
+    }
+
+    .search-img-section .img-section .result {
+      position: absolute;
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .search-img-section .img-section img {
+      width: 220px;
+      height: 160px;
+      padding: 2px;
+      box-sizing: border-box;
+      border: 1px solid;
+      margin: auto;
+    }
+
+    .search-img-section .set-btn {
+      margin-top: 15px;
+    }
+
+    .clear-btn {
+      display: inline-block;
+      vertical-align: top;
+      width: 80px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-radius: 5px;
+      color: #fff;
+      background-color: #00b7ee;
+      border-color: #00b7ee;
+    }
+
+    .clear-btn:hover {
+
+      background-color: rgb(66, 139, 202);
+      border-color: rgb(53, 126, 189);
+      color: #2d2d2d;
+      font-weight: bold;
+    }
+
+    .up-btn input {
+      display: inline-block;
+      width: 80px;
+      height: 33px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: transparent;
+      color: #fff;
+      opacity: 0;
+    }
+
+    .left-contain {
+      width: 40%;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .middle-contain {
+      width: 5%;
+      display: inline-block;
+      vertical-align: top;
+      margin-top: 50px;
+    }
+
+    .middle-contain .slogan {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 25px 2px;
+    }
+
+    .middle-contain .slogan img {
+      width: 100%;
+      height: 100%;
+      padding: 2px;
+      box-sizing: border-box;
+    }
+
+    .middle-contain .gray {
+      background-color: #ebebeb;
+    }
+
+    .middle-contain .blue {
+      background-color: #00b7ee;
+    }
+    .middle-contain .text{
+      color: #00b7ee;
+      text-align: center;
+    }
+
+    .right-contain {
+      width: 54%;
+      display: inline-block;
+      vertical-align: top;
+    }
+
+    .right-contain .feature-contain {
+      width: 100%;
+      height: 240px;
+      background-color: #ebebeb;
+      overflow-y: scroll;
+    }
+    .right-contain .feature-contain .item{
+      position: relative;
+      width: 120px;
+      height: 120px;
+      display: inline-flex;
+      margin: 10px 9px;
+    }
+
+    .right-contain .feature-contain .item img{
+      max-width: 100%;
+      max-height: 100%;
+    }
+    .right-contain .feature-contain .item .item-chose{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 4px solid #00b7ee;
+    }
+    .right-contain .choose-feature {
+      width: 100%;
+      height: 165px;
+      background-color: #ebebeb;
+    }
+
+    .right-contain .choose-feature .item{
+      position: relative;
+      width: 130px;
+      height: 130px;
+      display: inline-flex;
+      margin: 18px 4px;
+    }
+    .right-contain .choose-feature .item-close{
+      width: 25px;
+      height: 25px;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+    }
+    .right-contain .choose-feature .item img{
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+
+    .picture-contain {
+      width: 100%;
+    }
+    .up-contain{
+      width: 200px;
+      height: 200px;
+      margin-bottom: 15px;
+      margin-top: 15px;
+      display: inline-flex;
+      flex-flow: column;
+      vertical-align: top;
+    }
+
+    .up-picture {
+      background-color: #ebebeb;
+      width: 200px;
+      height: 200px;
+      position: relative;
+
+
+    }
+
+    .up-picture .up-input{
+      display: inline-block;
+      width: 200px;
+      height: 200px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: transparent;
+      color: #fff;
+      opacity: 0;
+    }
+
+    .up-picture .up-img{
+      width: 200px;
+      height: 200px;
+      display: flex;
+    }
+    .up-picture .up-img img{
+      max-width:100%;
+      max-height:100%;
+      margin: auto;
+    }
+
+    .up-contain  .img-info{
+      width: 100%;
+    }
+
+    .up-contain  .img-info .file-name{
+      display: inline-flex;
+      margin-left: 5px;
+      width: 40%;
+      text-align: left;
+      color: #2d2d2d;
+    }
+    .up-contain  .img-info .delete{
+      display: inline-flex;
+      margin-left: 30%;
+      width: 37px;
+      color: #00b7ee;
+    }
+
+    .up-picture .drawSection {
+      display: table-cell;
+      vertical-align: middle;
+      position: absolute;
+      background: rgba(0,0,0,0.1);
+    }
+
+    .up-picture .drawSection li {
+      list-style: none;
+      border: 2px solid #33FFFF;
+      position: absolute;
+    }
+
+
+
+    .up-picture .drawSection .active {
+      border: 2px solid #FFFF00;
+    }
+
+    .up-picture .img-info{
+      width: 100%;
+      height: 20px;
+    }
+
+    .up-picture .img-info .file-name{
+      color: #2d2d2d;
+    }
+
+    .up-picture .img-info .delete{
+      color:#00b7ee;
+    }
+
+    .edit-picture #oriPicture {
+      display: flex;
+      vertical-align: middle;
+      text-align: center;
+      height: 160px;
+      width: 200px;
+      position: absolute;
+      top: 0;
+      left: 0;
+
+    }
+
+    .edit-picture #oriPicture img {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      margin: auto;
+    }
+
+    .edit-picture #feaPicture {
+      display: flex;
+      vertical-align: middle;
+      text-align: center;
+      height: 320px;
+      width: 400px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .edit-picture #feaPicture img {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+      margin: auto;
+    }
+
+    #load {
+      position: absolute;
+      top: 40%;
+      left: 40%;
+      width: 40px;
+      height: 40px;
+    }
+
+    #load img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .feature-delete-btn {
+      background-color: #777777;
+      color: #fff;
+    }
+
+    .info {
+      display: inline-block;
+      vertical-align: top;
+      margin-left: 5px;
+    }
+
+    .info a {
+      color: #666666;
+    }
+
+    .modal-lg {
+      width: 1080px;
+    }
+
+    #show img{
+      border:1px solid;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="picture-contain" >
+
+  <div class="up-contain" index="0">
+    <div class="up-picture">
+      <input type="file" id="up-input1" name="file" class="up-input" onchange="preview(this,1)"
+             multiple="multiple"
+             accept="image/x-png, image/jpg, image/jpeg">
+      <div class="up-img">
+        <img src="./image/add.png">
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="up-contain" index="1">
+    <div class="up-picture">
+      <input type="file" id="up-input2" name="file" class="up-input"  onchange="preview(this,2)"
+             multiple="multiple"
+             accept="image/x-png, image/jpg, image/jpeg">
+      <div class="up-img">
+        <img src="./image/add.png">
+      </div>
+      <!--  <ul class="drawSection">
+            &lt;!&ndash; <li class="active" style="left: 66%; top: 30%; width: 18%; height: 69%;">1</li>
+             <li style="left: 2%; top: 3%; width: 65%; height: 96%;">2</li>&ndash;&gt;
+        </ul>-->
+    </div>
+  </div>
+
+  <div class="up-contain" index="2">
+    <div class="up-picture">
+      <input type="file" id="up-input3" name="file" class="up-input" onchange="preview(this,3)"
+             multiple="multiple"
+             accept="image/x-png, image/jpg, image/jpeg">
+      <div class="up-img">
+        <img src="./image/add.png">
+      </div>
+    </div>
+
+  </div>
+  <div class="up-contain" index="3">
+    <div class="up-picture">
+      <input type="file" id="up-input4" name="file" class="up-input" onchange="preview(this,4)"
+             multiple="multiple"
+             accept="image/x-png, image/jpg, image/jpeg">
+      <div class="up-img">
+        <img src="./image/add.png">
+      </div>
+      <!-- <ul class="drawSection">
+           &lt;!&ndash; <li class="active" style="left: 66%; top: 30%; width: 18%; height: 69%;">1</li>
+            <li style="left: 2%; top: 3%; width: 65%; height: 96%;">2</li>&ndash;&gt;
+       </ul>-->
+
+    </div>
+  </div>
+</div>
+
+<div id="show"></div>
+
+</body>
+<script src="js/jquery-1.8.3.min.js"></script>
+<script>
+  var dataT={
+        "Image": {
+          "Id": "",
+          "Width": 310,
+          "Height": 368,
+          "URI": "",
+          "BinData": ""
+        },
+        "NonMotors": null,
+        "Pedestrians": null,
+        "Vehicles": [
+          {
+            "Id": 1,
+            "Img": {
+              "Cutboard": {
+                "X": 47,
+                "Y": 302,
+                "Width": 78,
+                "Height": 61,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "e3aAPc24tzwwwSM+B5eXvJ0iCD0KI/U86zttPb0OAD6uDou9rLcAvKuY3D2zvy8972AevltcLTvDWXY90pWyvSvbxT2lbwe+pA67O4X+RT7jlo6978/QPKXtk72zXOo9u4Y2PNT3Fz2p0fW9E/5Dvlvgqr2xrDO8TfkXvvX2vj0mmCg8cKG5PXDNSz4FX4e9mF6HvaXtgzvQbRE9S6LjvebfjT1gwrW9n0uevH+8sj0rNNE9RD/jvIJlMj55shq+i8SCvd50GD09/uA8nzIPPQUArz26HPm9iRgDPslVHLxnWyU9VApOvi6xyz09VzI94DIhvg6V4r22eQ4+Oi3TPXrMEzySG0o9hEPzPYFFybwpgLg9FAmsvdqLR7zdX0S9p3jVPJPB2z06VbS9+OI6vUMtIT197wm93FwWPk0Ny70f8Tq91qm9vCi4ij1z+QA+lHcmvE1DV7038cA8Tki4PZ43/DyCvIw9IFHwvOOUVrg+Hpu9e8EPPfp+ULwdppG922wgPnWbSjzieqq9IUw9vaBF8j2PPgQ+wHwive3nhDxzwhu8UlGWPaEODT530ww8UviXPdHZ3ryB5DK9hPwOvMCPOr37kwO9XdtSvDgOAT5DxNO99L5ovu5tJ74RyVc9te2dPdbB3r2HRmI9D2DMvG41RL1Lt8y8oiESu1WpAb4=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.99986327,
+              "BrandId": 7,
+              "Brand": "奥迪",
+              "BrandConfidence": 0.9889648,
+              "SubBrandId": 9,
+              "SubBrand": "A6L",
+              "SubBrandConfidence": 0.9889648,
+              "ModelYearId": 3,
+              "ModelYear": "2009_2011",
+              "ModelYearConfidence": 0.9889648,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9999889
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 2,
+            "Img": {
+              "Cutboard": {
+                "X": 183,
+                "Y": 260,
+                "Width": 71,
+                "Height": 59,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "WhKwvcM6wD0N3bi47xe+u5tHBr0gP3A90AkZPnf2Cj0WmBE8ILztvUgP4T0I04E8CPOLvvUR6TtuzeW9qqybuvu15j3hi+k9K8LCPckNCj1i0ee9+csZvR0mybx9fKU9YQIgPnUhe7xW9Da+ZI2YvU8ChL0sSqo8Cv+Bu2jamj11zcQ83E2yPTupfz30BLC9we0evPu03T0hlIE99szhPMWlrzzlSNY74VPAO/wecbw7Oiu8udgGvv+tDr1bUvO9052OvmU3SL2wCYU9zMuZu13Y4TzbCkK+DU6APRK1zLwPBne92rx1vbOPIjxgLlq+XbCmPVW2pbyo9zW9XdMGPQTOBb7zqjM9J7a6PW+FAD0ktYs86+e/PbLzaT2K6q29qyHoPY1iqTx3XSQ+5XEtvm2jCb2y7Ru96BiRPS3VUL0DpXa9sXwTvF52WL0pitU8QZYMvv+CCLsrOEM9i9vCOjCpVz2ylTi+ro8vPc9GnT0DUE29lmKdPK5LCz4A+o099gomvtULXr0r6q+7IeL7PKgQ4j2+INA9tsldvcldvD0RpTK8aBawPWJKgj30FGQ9FpcvPhQXAj0Jljg9ayQnPgA7IL7QMf880jydvWIVhj2k7ks9RDMYvY7mgz32bUK9vMiBvWGvnr0C/QY+VfkPvdCPpryaRTw80ldCOUiYDD4=",
+            "ModelType": {
+              "StyleId": 3,
+              "Style": "越野车/SUV",
+              "StyleConfidence": 0.9954332,
+              "BrandId": 24,
+              "Brand": "比亚迪",
+              "BrandConfidence": 0.9626988,
+              "SubBrandId": 9,
+              "SubBrand": "S6",
+              "SubBrandConfidence": 0.9626988,
+              "ModelYearId": 1,
+              "ModelYear": "2011_2014",
+              "ModelYearConfidence": 0.9626988,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 1
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 3,
+            "Img": {
+              "Cutboard": {
+                "X": 244,
+                "Y": 222,
+                "Width": 62,
+                "Height": 50,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "wCn4PVuFJj2iCoE9DHLMvFKupr2tXLI98pXjvCIC2z1/loa8kvfPPKg01T3Nuyw9VuJgvRzBr70UoUM9V+IGvhVsQz7vM6A80igcOXOtWDxs80g9IeA4Pjvrh72YwwY9zUztPXjznbyIwxq++U8oPSy2jz24cBq9s1pTPX2otz0Gz5k8fHV5Pf1EXb1O34+9TKZvvnk8J74d2oA9j7/pPXYMh7w0N+07RdCdPfAFcr06+Hi9LnI4vsHzxD0/TtW7BbMtPvlkvjxVVi49LtEGPmMTVT2eGok92DKZPb4EtTwE3w6+637FveMHtb0BTgk9vYjhPXpx2TxscxK+cKKVvf+LPDo6p+y7RwXovND8jrswAhM+c+nbvBOu+jzzwuc6XY6bPd2fxD1ni449DkGTvfwilr3STZQ9FFf6u9cwtT2ZGhW+vV+iPeE4yD0qIzw+6YeUPYFZJT0ml8o9OAJgPPbEmb1OE608NEWQvT0Rdr1TikY9VMD8vAbOAj0HdBA+7JRCPQl6+zsQ5qo93POlPb4MmD36lIG9kuGsvY1s3ryhvxa+XrysvbDOOr3tKhi9DSQuPYRAbL6xnZQ9ZgwzPQS0Xzx9LAQ9nQi8vFFmULxw4L89+xwuviAPBr6pFVW90ZQUPa3IsD17rhg+AGnlvfCZp7sFy5G9T0gdvsFFEb4=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.99980575,
+              "BrandId": 23,
+              "Brand": "本田",
+              "BrandConfidence": 0.877948,
+              "SubBrandId": 27,
+              "SubBrand": "雅阁",
+              "SubBrandConfidence": 0.877948,
+              "ModelYearId": 3,
+              "ModelYear": "2003_2005",
+              "ModelYearConfidence": 0.877948,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9999981
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 4,
+            "Img": {
+              "Cutboard": {
+                "X": 162,
+                "Y": 223,
+                "Width": 55,
+                "Height": 47,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "TFd0vnIti72X7a68KuRAvQvr1bv8+Am9J5YPvnso5z1l7kE9IIwlPqWdpT3sm1m+DesVvb5YA73aP8y9QfsRvZnU/72U3Io9Q+ocPZs0h72U7d090+y/vfSqSD0Re7y9NJsePmKDdjyInNW91yKJPaLJt72GHwo+8/CdO5F4bT2SMLq8ssryvdFVtrxalbC8jEVMvfDpuL03vcK9ZrcCPvi6ML6N4Qo9eRIRPZKBIzwl6Qm6SnJuPT6aXT2fDZK9eIaWvd4tub3paLK9a5cPvY6B3j31wKg9WwgnPmSGOD3vCCA8uyUNvoIzLD1yJRk+gx2gPQ6sLr0CBbk9smNHvRZzcL2d6gm8xz4ovoZlPr4vrcq8vbj9PPHSN72wuFq80vkCPi1YPb27hjA9ISbwvOgKEj4x5Q+8DZgQPup3YL1GlYW9uBC3vQVzMr6/Rd29q7ARvWf0wr0aFEy9CEHPPd8olbwtTkq9PUeiPAHAlz1iMds9qNKWvTd/DD0fg6u8WcLwPcUjOT22Goy943G9PPHJXD1p7vu9uHs1PX0/ur05HUe9m5vfPZlOhb0fvio7xur9uzuDKj1re/M9ZkQtPbwixD36NB4+2XQxvZClkjyjqSa9aIdRvhankL0hPxI+OsVWPSOdyD1RfaQ9iiy1vctaijsLnjc8onfwvGt8Jzw=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.5861663,
+              "BrandId": 120,
+              "Brand": "其它",
+              "BrandConfidence": 0.08946601,
+              "SubBrandId": 0,
+              "SubBrand": "其它",
+              "SubBrandConfidence": 0.08946601,
+              "ModelYearId": 5,
+              "ModelYear": "无效车头",
+              "ModelYearConfidence": 0.08946601,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.8105802
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 5,
+            "Img": {
+              "Cutboard": {
+                "X": 1,
+                "Y": 230,
+                "Width": 40,
+                "Height": 68,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "p39sPfN4Z71bDbU8VCQnPeyi+bxYlUw9UPunvd3xQj1W8e+8ZOgdPgIe5D0QiVi96aIsvkZmer1Stw89XqktvZdOKT2vQaO9pdthvbxqhz14qTa+dwrrvKyiZ71WkAc8BrUhvaD/5L2LK2o6ILaUO613Yr3aRDW+klUevpV7gj11i+I90x0CvUffUz6GYsU8LdC8vYdVLr1ZGvo8JwzqvepmCD7+QSa+2LO3vXTSOD1NE848+Vumu5C0wz0Oyje9BvaqvZBvwD2cHEC9/c4lPgtmGbyIbZE91dUEPuAs9T1/C+Y9OmLrvNfqpLzeEhu+0NMavXcLWzzAY/w9lDgSvRZ4LTyX1qo9qRMTPcX8sD3KIe29vp8svX21kb1VHz29hoYZvDQEmDzzjsQ9V6sKPX4oKT0iBvM8foMyvqAHjjtFaou8P9bEPYHPHr2wiuU9bEJ0PYrvCb4ZmBQ+2sDsuO2sLL3UhBk+N6TFPa4ACzwTLZc8Dbg2vrNRrz0IMei9m24RPs/tFL5zYbU7q0kBPnxE8T2wO9Y8XkSZPfKDxzx+EY89X74NvbByrDvFrow998/2PJgGy71DiMY9rfYuvtQvx70dn3C7pgomvcjF/TyqFcQ6jSHvPMrGKjwBeOW9l8n6vXoqjLjC/1u9LNhqPg1EAj4JBie862q4Pbuc4Lw=",
+            "ModelType": {
+              "StyleId": 1,
+              "Style": "面包车",
+              "StyleConfidence": 0.99997294,
+              "BrandId": 152,
+              "Brand": "五菱",
+              "BrandConfidence": 0.9823713,
+              "SubBrandId": 10,
+              "SubBrand": "荣光",
+              "SubBrandConfidence": 0.9823713,
+              "ModelYearId": 4,
+              "ModelYear": "2011_2012",
+              "ModelYearConfidence": 0.9823713,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9999958
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 6,
+            "Img": {
+              "Cutboard": {
+                "X": 65,
+                "Y": 258,
+                "Width": 63,
+                "Height": 56,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "TzAUvZuyLj0nsnq9WjyLvTYcGT1hASw9dx1GvlMoNL3Lrh87tk2QvTTl5L2CTBc9+rL5PU/W1D2ufqi8NmXKPRHdh71rQu69pyWEvcmQsL3LiTM9Ze2KPciZwj0jLG48M3BGPZgQZjy/+i89k/aBPXsEXb3nk7i9EF/yPfmfkz0X9uU8vWA0vfNMmztPbEa756NYPYzqCT6Fd3W9ELeovQ/luL2xBoA8OzWZvDdhbz0dbfm8aJTqvAvElT264hy+sIDJvT1+F710+gs+yG2BvQVb+724sy4+55D4PH+zkD3lX8o8ycQgvdBupT2sWGK9RakkOxSF8r1vooE9SCPAvQ30xrwCTwq+7p1ePM6gdj3M7Uu9zHwCvq1Nvj0Fxug8CGx6vVhBPb2zkJ28Q1nlOpFE8Lycy++9e8PovYziMr3XNBe+cAKovRaYgb26KDA9VVBpvCeqSjw9fBQ+oz1UPPfKBr4byyc9S8ocPkA7QL2/2966hIUqPEpSlDxN0II+pGvuPe5Z2z3NdNm9QZvhPbHA+T101GA92FDHvJMXq7we8qy5W+qEvKl/tbtG59e8InuTPdfdI76g3W89ENxXvmWDnj3O6rw9fZAPPAj2Pr2tzwo+MTg5PdJrMz0i+WM+sAXgO3djurwDbke+rPMYPpDUDT3FcxO7Twl2vhgHtrs=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.9999292,
+              "BrandId": 155,
+              "Brand": "现代",
+              "BrandConfidence": 0.1533149,
+              "SubBrandId": 32,
+              "SubBrand": "伊兰特",
+              "SubBrandConfidence": 0.1533149,
+              "ModelYearId": 5,
+              "ModelYear": "2011",
+              "ModelYearConfidence": 0.1533149,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9999974
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 7,
+            "Img": {
+              "Cutboard": {
+                "X": 78,
+                "Y": 189,
+                "Width": 47,
+                "Height": 54,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "QnIBPROW/L12QkS+HWoLu+QcTr4dw4k96eBivINE8j1iVGg9RvOFPdSDCT29DtU8zP+XPdJRqzz7bCq+ZklkvR+KEb0Ef/G93G6Yu58pYj2wGQq+KnAaPT2JLL3yrV065AWUvUk2LLxUYvI8I7KIPWmeyTzZ1oO9iBTEvfV2HD7bc3E9ASuePUzNQz3fe+s8ix2/vcpa870Sn2q+bBgKPd5W/rudiyc8i47OPLNoZT3D8A+9cVOXPQ6c/7pPnIW9vMvfvRxmVj7MO4g9RFmsPU3dxzxorPk9MKVevC+zMj5mLue9WZnpPfUTuTzprJK93RJOvd/EijxN5rk9VjCyPC7hGz7yFgK9XyHjvcFerT3YFQi9c9EbPclA9T1Bao48hekCvOmGbr2LKwM9CMTPvDE/Fb1j6R+9WbGKvW+MNz3iaHS7PEDnvY+r6z1yjSa+BXJAvGBFaL2ZMYa8QsIlvofPhr3yKSA+zOW5PYToE75/sGm9kfBOve1NHbzaSFy9V0NTPde6gT1yX9y95KHRPdYBKD5QECm+Wmm/PRD+VrxXlAu91Bj4PUpbeL3czZY9bvZmPXPzJL7+rZW7umrRvcFNET6W/rk9mfHDvR8Vir0hzJE8QGr8veXQCr2gYUa93fVdvTMroz1cnXK81pSTvdJbDj6NkRg8cGfmPc7Wlj0=",
+            "ModelType": {
+              "StyleId": 1,
+              "Style": "面包车",
+              "StyleConfidence": 0.99483395,
+              "BrandId": 174,
+              "Brand": "长安",
+              "BrandConfidence": 0.96694106,
+              "SubBrandId": 36,
+              "SubBrand": "长安星光35",
+              "SubBrandConfidence": 0.96694106,
+              "ModelYearId": 1,
+              "ModelYear": "2009",
+              "ModelYearConfidence": 0.96694106,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9999497
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 8,
+            "Img": {
+              "Cutboard": {
+                "X": 175,
+                "Y": 312,
+                "Width": 76,
+                "Height": 55,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "lNfDveiGubx8lLG9mXPcvZFpxj1VkWM8XDxtvHygET6Vel+9edeSu5JzSz3AkZC95bHWvQlGi7pd2m8+78hvPZAVbjzSefs9m73hPHgeNr6z/As+IkAHvr7VeLyS7O499/N+O9iMAT5S6oS9O0EavoC2gL0TIci9MQsYvd3Ghj2yrtO8RTgCvacUa7ykgaq9Qey/O/rGdz3eTBS+C/ZNvDAqNb5n8m28lsYGvDDCuTvP/og86xmBPNMMzbqzkQ6+tJ0NvsXtFb6PCYy9U7hbPc+P6Dr33927yNP5PM4ny7zEp268+0Q/vs2y7D2VAR29FfYevYYDZ70rUWK9c0w3PsPVhb0rhxG885yoPa4iZr0vc5+9yTybvdTS3z11agO8zSdVvfxGOD1AnS09uoYKvuYmpz1yj2Y9EUuLu4yA9TyWoBE9TBQMPWwKuj1gcFS8e88UvQ3VrL09SIk9RDdPPhpXNzyC+J6928uhPG4cLj3UR6M8heSUvQvuZr1l+GK8xToEPdxpyj3Xm8K9W3d1vfjkKT7H1hQ9EX/0vV7I772jorO7H23QPJ6zETyg8I48TRsfPeTpF75+2pM9yr8Ovv3wlTxT1f89Imb/PTxEpjzjvgG9DXmKva1OIL4UM0O9c8LbvVRo5D3EMJW+TsDQvejWVDzDjzg8zbmzvfoYlzw=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.9992235,
+              "BrandId": 7,
+              "Brand": "奥迪",
+              "BrandConfidence": 0.8505737,
+              "SubBrandId": 9,
+              "SubBrand": "A6L",
+              "SubBrandConfidence": 0.8505737,
+              "ModelYearId": 3,
+              "ModelYear": "2009_2011",
+              "ModelYearConfidence": 0.8505737,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.99999213
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 9,
+            "Img": {
+              "Cutboard": {
+                "X": 75,
+                "Y": 223,
+                "Width": 56,
+                "Height": 49,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "yrXivPqj8b0MiAI+QK+jvRSjZrvwjAe+rb4IvelDhTwim2M98hmTPXLExb3RVyg+KmPUPfxl/bwpBAu+Lb/jvTuZBj2czPq9uwy9PUKVKD4h7ww+WZCrPXpZ1b1d3RA+6Wp1vYIUF705l787kLghPTLhkjtMea09X1aKvXxXF7ysW4Q9X7dHPtPvpLxfth49uXu6vbQsbzzRsca948DTO1fDyjwiksA94PXxPPXORD3XrU49nORHvNVuOz25rW0818icvbfBqz0Q2rc9YYipvGfMBD7rNEQ++FOfPaQOXj0/yBK+h0tyPWj8/D3PXo09SnzUvCv7xr2XTEY+yo2hO2xVgT13Ic29IYmXvTJzdj3xXAA+dBanPVHG1Tz2xo091E4EPS5IMb5skxk9I8mqvT1zlL276be8rpDgPetOxj0zkHI9Zo3rvW+H7Ttspf68HWVAPcmmGz4a1p48ySyfPcab7zxvjc097IoHvdX20r0CHse7UQuXvP/Zlj2sSaC9U03ePfspgT1jlAE9fZXtvdM8xT0lITO+jLxPvf8Qj71PygW9QnH6vbMWGj5Iroe9LwtnvNoqlj235xY9FzfsvEpGej0OwZA+hdX2PH6GjjwxmYs9CGiFPVgNn7zTDKS8zhmLPXGgB703jd+8F2kKPlXBRb3LXC+93IqaPbQF/r0=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.9996604,
+              "BrandId": 155,
+              "Brand": "现代",
+              "BrandConfidence": 0.3198774,
+              "SubBrandId": 25,
+              "SubBrand": "索纳塔",
+              "SubBrandConfidence": 0.3198774,
+              "ModelYearId": 1,
+              "ModelYear": "2004_2008",
+              "ModelYearConfidence": 0.3198774,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.99999154
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 10,
+            "Img": {
+              "Cutboard": {
+                "X": 3,
+                "Y": 180,
+                "Width": 52,
+                "Height": 42,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "z60WPT07r7wlyx0+HVpOvTdlfz6qgvc9U363vfdKjL2jxLu7w6Y7PnZYszzFMDa91ZWJvmihoj00qWe91VOIPJwMcb24BIk9OZoqvoogHL3zwRS+hDY8vN6H97xh0Ns8OcugPeux+j02SGG8YJGNPEyZbj3CTBQ+1hddPBeNRD3cmQE+WE9wPXv7cbw5Cgc9NOBHuwTksD3iGbu7iqoOPhAgA725UMO7Qe0KvcIP1z1nfuE9nr5ZPVTyjT2e13q9oZckvr5VYL3j9BK+uAKXPeiXOb1j0Ok95ZIBPcKM4DzYpPc8TgLavSxBEz0pSJ+8KweIuXHpjTxSNzw9Ku+rPFT6uzteQ6k9W0mgvWWIUrxYBDS+IA4dvOm92z0lvlw8f3fxPXX+pr0A8Z+9H7Z8vU+NBj5Ure88RauoPbaOH72NcVw9P3EKPPhgPL4/74A9xcTxPMo/9Tqj0nY8m3ndvGBO/jwEN6M9IanJPfpzpT13M2+8Kpjyuugd7j27t7A8emO1u5CRk7sWNk49AJ9JvAj/0L33g/s8eC+lPT5VETyqsww+QLxAPfpuEL2JyLs9BciBPYzi0T0a/Vs9RFuNvTX/6by/cCU9bQQWvpXFEL21h1s8tnsmvLPl8j1h9AS9qu5VPs8nijuUcw++0gRuPjZNnj0DvUa+LijEvTasmL0=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.99975663,
+              "BrandId": 54,
+              "Brand": "丰田",
+              "BrandConfidence": 0.43783158,
+              "SubBrandId": 16,
+              "SubBrand": "花冠",
+              "SubBrandConfidence": 0.43783158,
+              "ModelYearId": 4,
+              "ModelYear": "2010_2011",
+              "ModelYearConfidence": 0.43783158,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.99999833
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 11,
+            "Img": {
+              "Cutboard": {
+                "X": 160,
+                "Y": 189,
+                "Width": 53,
+                "Height": 42,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "5cymPVsKSL0qwPK9+TQwu3iUaDx6gGI+LM2vPQdasrsLblG+PEhnvUAYErufYTy7oHUNvvdD070E3tE97hS/PC8xKj5mOAw+VS8wvUKe8b0bWDm9KIprvWtVeL1CTBS9aMMsvgTr8z3RRvS87DgevpXS7T1UJJE8NPEqvdo/ab3PtSO9UWtJPaa5fb2ksqM9d114PXKwuz2vr089etD8vHfYp73MC6y61/gnPtyhhz3Q1xC9eA8CvZvuXroE3Qa9aZCkPdgX7b3aiji6IFgfPqTmfL3cGkg9W4fdPP/p0z22E7U9QQAZvmUSWjwF45m91O+KvFVxDDwADKq8Wx3zPGLCAj6kFCS9a+Z2PQOsIL2NFmO+ytP5PU7Qoj6idoA+UWYTvMWDubvI74E6sResvbG9Lr1HMMy8xmJyvan7Fr6h07I9kkXlvfjnZb1az9C8RebAPYyv8j3FyBu8GuyUuxftDTyGKJU9XZVnPZARmjxWDg29pw6UvVgIur0DlH69Nh7RPfoNG75OiN47uNptvT0PKDwVdog9lZcIPq7kAj6PGHY96JAmvegsOj3sGQg91+YLvV3hKb3AxY89kNoJuwNjIj1yfog8TfKgPBCwnbzoN6c87omivAKFdb1+wPm8TS9DvfK3EzxhpKS8jDQAPnWkTz2z4IK984qavZ4T9r0=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.9970579,
+              "BrandId": 9,
+              "Brand": "宝马",
+              "BrandConfidence": 0.40620717,
+              "SubBrandId": 4,
+              "SubBrand": "3系",
+              "SubBrandConfidence": 0.40620717,
+              "ModelYearId": 4,
+              "ModelYear": "2009_2012",
+              "ModelYearConfidence": 0.40620717,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9998311
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 12,
+            "Img": {
+              "Cutboard": {
+                "X": 227,
+                "Y": 152,
+                "Width": 53,
+                "Height": 33,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "T27ZPNA0Bb4/FFE87mlKPY7Yoz0dRpm98PTyPU8nLT5agJM9QAaWOtwxd72sBLM9gUlova+NqDzh3Je9bXjpvdZNm72Ouy+9Q7icPG9SAj7gZU+82LKFPfF0gr0GRh8+OXJsvP+o6T0aKK49RU56vTLsr73hlSe8i43Avcn6nDzWfDa9UNtBPUcYMD1apN49d/xuPb+LL70Whja967d7PggRtT3aTTY+aOOnvQ/R4DyYJYW8QonFPFuruz06loC9ovF1vCQFLjxfk9y9n0I3vi9jFL7w0qU8cviCPZ8Gmr1+Phk9q6Y/PfFBvT0LKB8+J4LrvAvTzryy3fE9Sx4jvP38cb07+TU9lfVGPkS5Kr6PK+A8Gd3FPXlwl729Pgy+BScdvZvpOLzXEA8+ndwEPSWRpT2bxw48LdX2PWy8hL3X2NW8Vl2du9zLfjqEtao8YA6kvRgKIz4eBUM+K4APPTNSVLzLOqu9hY05PQfB1L0sOn698sVsPYQmOj4h6VO9mAg1Pk9eG76sqNq8iZDlvefkA71fLKg8XL9cvYyhgjxTVBO91LZUvYz5C72KD7886v2TvdyeSzw8LCS7COESvWu2N74ivcu8NUWpPSfIiT0GUZW9/uaWPMltJr4Hyk0975wSvkd7IDyLL9o8+oodvtXgCD7oHAI9l/VCvAUzVT0=",
+            "ModelType": {
+              "StyleId": 19,
+              "Style": "其它",
+              "StyleConfidence": 0.2609282,
+              "BrandId": 120,
+              "Brand": "其它",
+              "BrandConfidence": 0.07053649,
+              "SubBrandId": 0,
+              "SubBrand": "其它",
+              "SubBrandConfidence": 0.07053649,
+              "ModelYearId": 5,
+              "ModelYear": "无效车头",
+              "ModelYearConfidence": 0.07053649,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9491662
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          },
+          {
+            "Id": 13,
+            "Img": {
+              "Cutboard": {
+                "X": 156,
+                "Y": 151,
+                "Width": 46,
+                "Height": 40,
+                "ResWidth": 0,
+                "ResHeight": 0,
+                "Confidence": 0.99
+              },
+              "Img": null,
+              "Rect": null,
+              "CutboardSpeed": 0,
+              "CutboardDirection": 0
+            },
+            "Features": "M/fRvRPKNb2LbJ09jqXoPJvIgr2V/dU88jFVvEsCljxmJQW9ZGBYPnv45jvav569MIwNvkilobxLRcu7LALpPLsOqT3RNBO+PT5hu7/XNT3ukZS9Krb6PA163Dy3vIs9HPcUPdeddL0YKQQ94K81PQqOEb74xDo+q9iYvfDOAT7CQwm+c/CbPSzzwjwGzJ295AeqvZgUir4y9ZC9YYCXu6KTXDzPzYu8b4dFPT9Yzj1l8Uk+b/lXvXIgjj2R3Kg9jz6MvfKDYjwnQRm92T4ePeh2Uj1+mgM+T0COvGEkh73Appk7xlcmPUK8/jub4UQ+21/wPV+F0b3LIhs+i2TGvCPbzr1xuza9lb4GOzGS1bwW1Qg+F7PuPcUv/73lsfG9wIPDveQT7DsNcH09w5WTPVHxdz10MFY7zreePBM/jr3XfMg7owYovdYe7r0Ja7A9aoiCvYc7BD6+5OY8cscBPrb0MDxa56Q9wgf6PVbbzT1+JKm7J3jsvGgn9D38uqe9bphYvUdO9DxXCa288YKuPPQgAr7UNm28HmaYPOCWl71nTj6+r4TlPbR4dz3SycW9TQeRvWHpYT2HDJQ9MHEBvk5j2L0HeQs+I8oSvDFrirwdfxa7ddZAvsUDD75NphU+Jm62O48Uxr3lvTs9aSU+vTvw5jxgX1I8UsSBvWJtID4=",
+            "ModelType": {
+              "StyleId": 0,
+              "Style": "轿车",
+              "StyleConfidence": 0.93467855,
+              "BrandId": 34,
+              "Brand": "大众",
+              "BrandConfidence": 0.5481624,
+              "SubBrandId": 31,
+              "SubBrand": "桑塔纳经典",
+              "SubBrandConfidence": 0.5481624,
+              "ModelYearId": 1,
+              "ModelYear": "2004_2007",
+              "ModelYearConfidence": 0.5481624,
+              "PoseId": 0,
+              "Pose": "车尾",
+              "PoseConfidence": 0.9994923
+            },
+            "Color": null,
+            "Symbols": null,
+            "Plates": null,
+            "Passengers": null,
+            "Attributes": null
+          }
+        ]
+      }
+
+  var upImage = [false, false, false, false];
+  function preview(file, num) {
+    var doc = document.getElementById('up-input' + num);
+    var imageSize = new Array();
+    var i = 0, j = 0;
+    while (upImage[j]) {
+      j++;
+    }
+    for (i; doc.files && i < doc.files.length; i++) {
+      if (j > 4 || i > 4) {
+        return false;
+      }
+      if (doc.files[i]) {
+        var reader = new FileReader();
+
+        reader.onload = function (evt) {
+
+          var dom = $('.up-contain .up-img:eq(' + j + ')');
+          dom.empty();
+          dom.append('<img src="' + evt.target.result + '" />');
+          var text = $('.up-contain:eq(' + j + ')');
+          text.append(
+            '<div class="img-info">\n' +
+            '    <span class="file-name">' + ""/*fileName[j]*/ + '</span>\n' +
+            '    <span class="delete">删除</span>\n' +
+            '</div>'
+          );
+
+          var del = $('.up-contain .img-info .delete');
+          del.unbind();
+          del.click(function () {
+            $(this).unbind();
+            var contain = $(this).parent().parent();
+            contain.find('.img-info').remove();
+            contain.find('.up-picture .up-img').empty();
+            contain.find('.up-picture .up-img').append('<img src="/image/add.png" />');
+            var index = parseInt(contain.attr('index'));
+            upImage[index] = false;
+            /*upImage[index].d = false;*/
+          });
+          upFile(evt.target.result, j);
+          upImage[j] = true;
+          j++;
+          while (upImage[j]) {
+            j++;
+          }
+
+
+        }
+        reader.readAsDataURL(doc.files[i]);
+
+      } else {
+        prevDiv.innerHTML = '<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + file.value + '\'"></div>';
+      }
+    }
+
+
+  }
+
+  function upFile(url, j) {
+
+    var w = dataT.Image.Width;
+    var h = dataT.Image.Height;
+    var canvas=document.createElement('canvas');
+    canvas.width=w;
+    canvas.height=h;
+    var ctx=canvas.getContext('2d');
+    var image=new Image();
+    var b=document.createElement('canvas');
+    var bctx=b.getContext('2d');
+   // $('#show').append(canvas);
+    image.onload = function(){//必须onload之后再画
+      ctx.drawImage(image,0,0);
+      var str='';
+      console.info(dataT);
+      console.info(dataT.Vehicles.length);
+      if (dataT.Vehicles) {
+        for (var i = 0; i < dataT.Vehicles.length; i++) {
+          var cut = dataT.Vehicles[i].Img.Cutboard;
+          var img=ctx.getImageData(cut.X,cut.Y,cut.Width,cut.Height);
+          b.width=cut.Width;
+          b.height=cut.Height;
+          bctx.putImageData(img,0,0);
+          var imgUrl=b.toDataURL("image/png");
+          str+='<img src="'+imgUrl+'">'
+        }
+      }
+      $('#show').append(str);
+    }
+    image.src=url;
+
+   /* if (dataT.Pedestrians) {
+      for (var i = 0; dataT.Pedestrians && i < dataT.Pedestrians.length; i++) {
+        var cut = dataT.Pedestrians[i].Img.Cutboard;
+        str += ' <li style="left: ' + (cut.X / w) * 100 + '%; top: ' + cut.Y / h * 100 + '%; width: ' + cut.Width / w * 100 + '%; height: ' + cut.Height / h * 100 + '%;"></li>\n';
+      }
+    }
+    if (data.Vehicles) {
+      for (var i = 0; dataT.Vehicles && i < dataT.Vehicles.length; i++) {
+        var cut = dataT.Vehicles[i].Img.Cutboard;
+        str += ' <li style="left: ' + (cut.X / w) * 100 + '%; top: ' + cut.Y / h * 100 + '%; width: ' + cut.Width / w * 100 + '%; height: ' + cut.Height / h * 100 + '%;"></li>\n';
+      }
+    }*/
+
+  }
+
+
+</script>
+</html>
